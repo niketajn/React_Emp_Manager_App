@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import EmployeeCard from './EmployeeCard';
 
 const EmployeeList = (props) =>{
-
+    
+    const onDeleteHandler=(id)=>{
+        props.deleteEmployee(id);
+        }
+    
     const retrieveEmployees = props.employees.map((employee,i) => {
         return(
-            <EmployeeCard employee={employee} key={i}></EmployeeCard>
+            <EmployeeCard employee={employee} key={i} onDelete={onDeleteHandler}></EmployeeCard>
         )
     });
 

@@ -4,13 +4,15 @@ import EmployeeList from './EmployeeList';
 import AddEmployee from './AddEmployee';
 import { useState, useEffect } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { v4 as uuid} from 'uuid';
 
 function App() {
   const LOCAL_STORAGE_KEY="employees";
+  const unique_id = uuid();
   const [employees,setEmployees] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))??[]);
 
   const addEmployeeHandler = (employee) => {
-    setEmployees([...employees,employee]);
+    setEmployees([...employees,{...employee,id:unique_id}]);
   }
 
   useEffect(()=>{
@@ -21,6 +23,13 @@ function App() {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(employees))
   },[employees]);
+
+  const deleteEmployeeHandler = (id) => {
+    let filterArray = employees.filter(employee=>{
+      return id!==employee.id;
+    })
+    setEmployees(filterArray);
+  }
 
   return (
     <div>
@@ -35,7 +44,7 @@ function App() {
 
           <Route path="/" 
           element={
-            <EmployeeList employees={employees}/>
+            <EmployeeList employees={employees} deleteEmployee={deleteEmployeeHandler}/>
             }>
           </Route>
         </Routes>

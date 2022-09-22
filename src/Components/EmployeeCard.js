@@ -1,7 +1,7 @@
 import React from "react";
 
 const EmployeeCard = (props) => {
-    const {name,email} = props.employee;
+    const {id,name,email} = props.employee;
     return(
         <div className="item">
         <img className="ui avatar image"
@@ -15,6 +15,8 @@ const EmployeeCard = (props) => {
                     </div>
                 </div>
                 
+                <i className="trash alternate outline icon"
+                style={{color:"red",marginTop:"7px",float:"right"}} onClick={()=>props.onDelete(id)}></i>
             </div>
     )
 }
