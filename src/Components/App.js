@@ -21,7 +21,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(employees))
   },[employees]);
-  console.log(employees);
 
   return (
     <div>
