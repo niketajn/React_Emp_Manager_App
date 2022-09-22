@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 
+import { useNavigate } from "react-router-dom";
+
 const AddEmployee = (props) =>{
     const [empInfo,setEmpInfo] = useState({
         name:'',
         email:''
     });
+
+    const navigate = useNavigate();
+
     const add = (e) => {
         e.preventDefault();
+        if(empInfo.name===" " || empInfo.email === ""){
+            return alert("All fields are mandatory");
+        }
         props.addEmployeeHandler(empInfo);
         setEmpInfo({name:'',email:''});
+        navigate("/");
     }
 
     return(

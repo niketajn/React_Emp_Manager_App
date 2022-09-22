@@ -2,7 +2,6 @@ import React from "react";
 
 const EmployeeCard = (props) => {
     const {name,email} = props.employee;
-    console.log(props);
     return(
         <div className="item">
         <img className="ui avatar image"
