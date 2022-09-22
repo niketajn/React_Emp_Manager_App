@@ -21,7 +21,7 @@ const EmployeeList = (props) =>{
     });
 
     return(
-        <div className='ui celled list'>
+        <div className='ui celled list' style={{marginTop:"4em"}}>
             {retrieveEmployees}
         </div>
     )

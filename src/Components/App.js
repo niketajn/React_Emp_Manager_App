@@ -2,21 +2,45 @@ import './App.css';
 import Header from './Header';
 import EmployeeList from './EmployeeList';
 import AddEmployee from './AddEmployee';
-import { useState } from 'react';
-function App() {
+import { useState, useEffect } from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-  const [employees,setEmployees] = useState([]);
+function App() {
+  const LOCAL_STORAGE_KEY="employees";
+  const [employees,setEmployees] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))??[]);
 
   const addEmployeeHandler = (employee) => {
     setEmployees([...employees,employee]);
   }
 
+  useEffect(()=>{
+    const getEmployees = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if(getEmployees) setEmployees(getEmployees);
+  },[]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(employees))
+  },[employees]);
+  console.log(employees);
+
   return (
     <div>
-      <Header/>
-      <AddEmployee addEmployeeHandler={addEmployeeHandler}/>
+      <BrowserRouter>
+        <Header/>
+        <Routes>
+          <Route path="/add" 
+          element={
+            <AddEmployee addEmployeeHandler={addEmployeeHandler}/>
+            }>
+          </Route>
 
-      <EmployeeList employees={employees}/>
+          <Route path="/" 
+          element={
+            <EmployeeList employees={employees}/>
+            }>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

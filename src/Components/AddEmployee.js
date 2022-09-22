@@ -8,6 +8,7 @@ const AddEmployee = (props) =>{
     const add = (e) => {
         e.preventDefault();
         props.addEmployeeHandler(empInfo);
+        setEmpInfo({name:'',email:''});
     }
 
     return(
