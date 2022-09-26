@@ -36,7 +36,7 @@ const EmployeeList = (props) =>{
                 </div>
             </div>
             <div className='ui celled list' style={{marginTop:"4em"}}>
-                {retrieveEmployees}
+                {retrieveEmployees.length ? retrieveEmployees : 'No employees available'}
             </div>
         </div>
     )
