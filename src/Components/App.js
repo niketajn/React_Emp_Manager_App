@@ -7,39 +7,49 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { v4 as uuid} from 'uuid';
 import EditEmployee from './EditEmployee';
 import EmployeeDetail from './EmployeeDetail';
+import api from '../api/employees';
 
 function App() {
   
-  const LOCAL_STORAGE_KEY="employees";
   const unique_id = uuid();
-  const [employees,setEmployees] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))??[]);
+  const [employees,setEmployees] = useState([]);
   const [searchText,setSearchText] = useState('');
   const [searchResult,setSearchResult] = useState([]);
 
-  const addEmployeeHandler = (employee) => {
-    setEmployees([...employees,{...employee,id:unique_id}]);
+  const retrieveEmployees = async() => {
+    const response = await api.get("/employees");
+    return response.data;
+  }
+  const addEmployeeHandler = async (employee) => {
+    const bodyRequest = {
+      ...employee,
+      id:unique_id
+    }
+    const response = await api.post("/employees", bodyRequest)
+      setEmployees([...employees,response.data]);
   }
 
   useEffect(()=>{
-    const getEmployees = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if(getEmployees) setEmployees(getEmployees);
-  },[]);
+    const getAllEmployees = async() => {
+      const allEmployees = await retrieveEmployees();
+      if(allEmployees) setEmployees(allEmployees);
+    }
+    getAllEmployees();
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(employees))
-  },[employees]);
-
-  const deleteEmployeeHandler = (id) => {
+  const deleteEmployeeHandler = async (id) => {
+    await api.delete(`/employees/${id}`);
     let filterArray = employees.filter(employee=>{
       return id!==employee.id;
     })
     setEmployees(filterArray);
   }
 
-  const updateEmployeeHandler = (data) => {
-    const{id,name,email} = data;
+  const updateEmployeeHandler = async (data) => {
+    const response = await api.put(`/employees/${data.id}`, data);
+    const{id,name,email} = response.data;
     let updatedEmpDetails = employees.map((employee) => {
-      return (id===employee.id) ? {...data} : employee;
+      return (id===employee.id) ? {...response.data} : employee;
     });
     setEmployees(updatedEmpDetails);
   }
