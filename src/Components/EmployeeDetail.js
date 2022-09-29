@@ -17,7 +17,7 @@ const EmployeeDetail = () => {
             </div>
         </div>
         <div className="center-div">
-            <Link to="/">
+            <Link to="/list">
                 <button className="ui button blue center">Back to contact list</button>
             </Link>
         </div>

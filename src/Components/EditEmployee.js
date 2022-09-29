@@ -22,7 +22,7 @@ const AddEmployee = (props) =>{
         }
         props.updateEmployeeHandler(empInfo);
         setEmpInfo({name:'',email:''});
-        navigate("/");
+        navigate("/list");
     }
 
     return(

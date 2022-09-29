@@ -8,6 +8,9 @@ import { v4 as uuid} from 'uuid';
 import EditEmployee from './EditEmployee';
 import EmployeeDetail from './EmployeeDetail';
 import api from '../api/employees';
+import ProtectedRoutes from './ProtectedRoutes';
+import Login from './Login';
+import { UserAuthContextProvider } from '../Context/UserAuthContext';
 
 function App() {
   
@@ -69,35 +72,51 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+        <UserAuthContextProvider>
         <Header/>
         <Routes>
           <Route path="/add" 
           element={
+            <ProtectedRoutes>
             <AddEmployee addEmployeeHandler={addEmployeeHandler}/>
+            </ProtectedRoutes>
             }>
           </Route>
-
-          <Route path="/" 
+          
+          <Route path="/list" 
           element={
-            <EmployeeList item={searchText} searchKeyword={searchKeywordHandler} employees={searchText.length<1 ? employees : searchResult} deleteEmployee={deleteEmployeeHandler}/>
-            }>
+            <ProtectedRoutes>
+              <EmployeeList item={searchText} searchKeyword={searchKeywordHandler} employees={searchText.length<1 ? employees : searchResult} deleteEmployee={deleteEmployeeHandler}/>
+            </ProtectedRoutes>
+          }>
+          </Route>
+          
+          <Route path="/"
+          element={
+            <Login/>
+          }>
           </Route>
 
           <Route path="/edit/:id"
           element={
+            <ProtectedRoutes>
             <EditEmployee 
               updateEmployeeHandler={updateEmployeeHandler}>
             </EditEmployee>
+            </ProtectedRoutes>
           }>
           </Route>
 
           <Route path="/detail/:id"
           element={
+            <ProtectedRoutes>
             <EmployeeDetail></EmployeeDetail>
+            </ProtectedRoutes>
           }>
-
           </Route>
+          
         </Routes>
+        </UserAuthContextProvider>
       </BrowserRouter>
     </div>
   );

@@ -8,8 +8,8 @@ const EmployeeList = (props) =>{
 
     const onDeleteHandler=(id)=>{
         props.deleteEmployee(id);
-        }
-    
+    }
+
     const retrieveEmployees = props.employees.map((employee,i) => {
         return(
             <EmployeeCard employee={employee} key={i} onDelete={onDeleteHandler}></EmployeeCard>
@@ -24,7 +24,7 @@ const EmployeeList = (props) =>{
         <div className="main">
             <h2>Employee List</h2>
             <Link to="/add">
-                <button className="ui button blue right">Add Contact</button>
+                <button className="ui button blue right" style={{marginTop:"2em"}}>Add Employee</button>
             </Link>
             <div className="ui search" style={{marginTop:"1em"}}>
                 <div className="ui icon input">

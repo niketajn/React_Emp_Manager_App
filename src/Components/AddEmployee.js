@@ -17,7 +17,7 @@ const AddEmployee = (props) =>{
     const add = (e) => {
         e.preventDefault();
         if(validate()){
-            navigate("/");
+            navigate("/list");
         props.addEmployeeHandler(empInfo);
         setEmpInfo({name:'',email:''});
         };
@@ -52,7 +52,7 @@ const AddEmployee = (props) =>{
 
     return(
         <div className="ui main">
-                <h2>Add Contact</h2>
+                <h2 style={{marginTop:"2em"}}>Add Employee Details</h2>
                 <form className="ui form" onSubmit={add}>
                     <div className="field">
                         <label>Name</label>
